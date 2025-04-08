@@ -15,6 +15,13 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: "en",
       },
+      link: [
+        {
+          rel: "icon",
+          type: "image/png",
+          href: "/favicon.svg",
+        },
+      ],
       meta: [
         {
           name: "description",
