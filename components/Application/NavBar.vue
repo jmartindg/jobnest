@@ -11,11 +11,11 @@
         <div class="hidden items-center gap-3 lg:flex">
           <div class="avatar avatar-placeholder">
             <div class="bg-base-100 w-11 rounded-full">
-              <span>JM</span>
+              <span>{{ user?.user_metadata?.name?.[0] || "" }}</span>
             </div>
           </div>
           <div class="text-primary-content flex flex-col items-start">
-            <p>Jm De Guia</p>
+            <p>{{ user?.user_metadata.name }}</p>
             <span class="text-xs">{{ user?.email }}</span>
           </div>
           <button class="ml-2 flex cursor-pointer items-center" @click="clickSignOut">

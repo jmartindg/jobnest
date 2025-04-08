@@ -264,13 +264,10 @@ definePageMeta({
   middleware: "auth",
 });
 
-const user = useSupabaseUser();
 const viewModal = ref(null as HTMLDialogElement | null);
 const addApplicationModal = ref(null as HTMLDialogElement | null);
 const editApplicationModal = ref(null as HTMLDialogElement | null);
 const deleteApplicationModal = ref(null as HTMLDialogElement | null);
-
-console.log(user.value);
 
 const handleViewModal = () => {
   viewModal.value?.showModal();

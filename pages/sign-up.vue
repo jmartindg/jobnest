@@ -31,7 +31,7 @@
           </div>
 
           <div class="mt-6">
-            <button type="submit" class="btn btn-primary w-full">Create your account</button>
+            <button type="submit" class="btn btn-primary w-full" :disabled="loading">Create your account</button>
           </div>
         </form>
 
@@ -63,12 +63,64 @@ useSeoMeta({
   description: "Create your JobNest account",
 });
 
+const supabase = useSupabaseClient();
 const name = ref("");
 const email = ref("");
 const password = ref("");
+const loading = ref(false);
 
-const handleRegister = () => {
-  console.log("Login attempt with:", { email: email.value, password: password.value });
+const handleRegister = async () => {
+  try {
+    loading.value = true;
+    const { data, error } = await supabase.auth.signUp({
+      email: email.value,
+      password: password.value,
+      options: {
+        data: {
+          name: name.value,
+        },
+      },
+    });
+
+    if (error) {
+      console.error("Error during registration:", error.message);
+      return;
+    }
+
+    if (data) {
+      useToastify("Registration successful! Signing-in to your account.", {
+        type: "success",
+        position: "top-center",
+      });
+      setTimeout(() => {
+        autoLogin();
+      }, 3100);
+    }
+  } catch (error) {
+    console.error("Error during registration:", error);
+  } finally {
+    loading.value = false;
+  }
+};
+
+const autoLogin = async () => {
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email.value,
+      password: password.value,
+    });
+
+    if (error) {
+      console.error("Error during auto login:", error.message);
+      return;
+    }
+
+    if (data) {
+      navigateTo("/confirm");
+    }
+  } catch (error) {
+    console.error("Error during auto login:", error);
+  }
 };
 </script>
 

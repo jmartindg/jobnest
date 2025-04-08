@@ -11,7 +11,7 @@
 const route = useRoute();
 
 const getPath = computed(() => {
-  if (route.path === "/applications") {
+  if (route.path === "/applications" || route.path === "/applications/profile") {
     return "#FFFFFF";
   } else {
     return "#000000";

@@ -74,6 +74,7 @@ const signIn = async () => {
       isInvalid.value = true;
       useToastify(error.message, {
         type: "error",
+        position: "top-center",
       });
       console.error("Error signing in:", error.message);
       return;
