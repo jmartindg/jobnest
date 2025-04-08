@@ -22,14 +22,20 @@
 </template>
 
 <script setup lang="ts">
+const supabase = useSupabaseClient();
 const signOutModal = ref(null as HTMLDialogElement | null);
 
 const handleSignOutModal = () => {
   signOutModal.value?.showModal();
 };
 
-const handleSignOut = () => {
-  navigateTo("/sign-in");
-  signOutModal.value?.close();
+const handleSignOut = async () => {
+  const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.error("Error signing out:", error.message);
+  } else {
+    signOutModal.value?.close();
+    navigateTo("/sign-in");
+  }
 };
 </script>

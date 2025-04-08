@@ -16,7 +16,7 @@
           </div>
           <div class="text-primary-content flex flex-col items-start">
             <p>Jm De Guia</p>
-            <span class="text-xs">jmdeguia09@gmail.com</span>
+            <span class="text-xs">{{ user?.email }}</span>
           </div>
           <button class="ml-2 flex cursor-pointer items-center" @click="clickSignOut">
             <Icon name="ph:sign-out" class="text-primary-content" size="24" />
@@ -35,6 +35,7 @@
 <script setup lang="ts">
 const emit = defineEmits(["signOut"]);
 
+const user = useSupabaseUser();
 const navLinks = ref([
   { name: "My Applications", href: "/applications" },
   { name: "Profile", href: "/applications/profile" },
