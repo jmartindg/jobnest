@@ -20,7 +20,12 @@
             <label for="password" class="label mb-1">
               <span class="text-base-content">Password</span>
             </label>
-            <input id="password" v-model="password" type="password" class="input w-full" :class="{ 'border-red-500': isInvalid }" required />
+            <div class="relative">
+              <input id="password" v-model="password" :type="showPassword ? 'text' : 'password'" class="input w-full" :class="{ 'border-red-500': isInvalid }" required />
+              <button type="button" class="text-base-content/60 hover:text-base-content absolute top-[10px] right-3 cursor-pointer" @click.prevent="showPassword = !showPassword">
+                <Icon :name="showPassword ? 'heroicons:eye-slash' : 'heroicons:eye'" />
+              </button>
+            </div>
           </div>
 
           <div class="mt-6">
@@ -39,7 +44,7 @@
 
         <div class="text-center">
           <p class="mb-4">Don't have an account yet?</p>
-          <NuxtLink to="/sign-up" class="btn btn-outline btn-primary w-full"> Create an Account </NuxtLink>
+          <NuxtLink to="/sign-up" class="btn btn-outline btn-primary w-full">Create an Account</NuxtLink>
         </div>
       </div>
     </div>
@@ -61,6 +66,7 @@ const email = ref("");
 const password = ref("");
 const loading = ref(false);
 const isInvalid = ref(false);
+const showPassword = ref(false);
 
 const signIn = async () => {
   try {

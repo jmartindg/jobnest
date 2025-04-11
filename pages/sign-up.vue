@@ -27,7 +27,12 @@
             <label for="password" class="label mb-1">
               <span class="text-base-content">Password</span>
             </label>
-            <input id="password" v-model="password" type="password" class="input w-full" minlength="8" required />
+            <div class="relative">
+              <input id="password" v-model="password" :type="showPassword ? 'text' : 'password'" class="input w-full" minlength="8" required />
+              <button type="button" class="text-base-content/60 hover:text-base-content absolute top-[10px] right-3 cursor-pointer" @click.prevent="showPassword = !showPassword">
+                <Icon :name="showPassword ? 'heroicons:eye-slash' : 'heroicons:eye'" />
+              </button>
+            </div>
           </div>
 
           <div class="mt-6">
@@ -68,6 +73,7 @@ const name = ref("");
 const email = ref("");
 const password = ref("");
 const loading = ref(false);
+const showPassword = ref(false);
 
 const handleRegister = async () => {
   try {
