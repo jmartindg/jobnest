@@ -66,7 +66,7 @@
                 <span class="text-base-content">Confirm Password</span>
               </label>
               <div class="relative">
-                <input id="updateConfirmPassword" v-model="showConfirmPassword" :type="showConfirmPassword ? 'text' : 'password'" class="input w-full" required />
+                <input id="updateConfirmPassword" v-model="confirmPassword" :type="showConfirmPassword ? 'text' : 'password'" class="input w-full" required />
                 <button
                   type="button"
                   class="text-base-content/60 hover:text-base-content absolute top-[10px] right-3 cursor-pointer"
@@ -102,8 +102,6 @@ const password = ref("");
 const confirmPassword = ref("");
 const showPassword = ref(false);
 const showConfirmPassword = ref(false);
-
-console.log(user.value);
 
 const updateUser = async () => {
   try {
