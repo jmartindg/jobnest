@@ -33,7 +33,7 @@
         <div class="mb-4 flex w-full">
           <button class="btn btn-outline w-full">
             <GoogleSVG />
-            Login with Google
+            Sign In with Google
           </button>
         </div>
 

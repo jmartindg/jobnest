@@ -27,7 +27,7 @@
             <label for="password" class="label mb-1">
               <span class="text-base-content">Password</span>
             </label>
-            <input id="password" v-model="password" type="password" class="input w-full" required />
+            <input id="password" v-model="password" type="password" class="input w-full" minlength="8" required />
           </div>
 
           <div class="mt-6">
@@ -76,6 +76,7 @@ const handleRegister = async () => {
       email: email.value,
       password: password.value,
       options: {
+        emailRedirectTo: `${window.location.origin}/confirm`,
         data: {
           name: name.value,
         },
@@ -87,39 +88,27 @@ const handleRegister = async () => {
       return;
     }
 
-    if (data) {
-      useToastify("Registration successful! Signing-in to your account.", {
+    if (data.user && data.user.identities && data.user.identities.length === 0) {
+      useToastify("User already exists. Please sign in.", {
+        type: "error",
+        position: "top-center",
+      });
+      name.value = "";
+      email.value = "";
+      password.value = "";
+    } else if (data) {
+      useToastify("Registration successful! A confirmation link has been sent to your email address.", {
         type: "success",
         position: "top-center",
       });
-      setTimeout(() => {
-        autoLogin();
-      }, 3100);
+      name.value = "";
+      email.value = "";
+      password.value = "";
     }
   } catch (error) {
     console.error("Error during registration:", error);
   } finally {
     loading.value = false;
-  }
-};
-
-const autoLogin = async () => {
-  try {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email.value,
-      password: password.value,
-    });
-
-    if (error) {
-      console.error("Error during auto login:", error.message);
-      return;
-    }
-
-    if (data) {
-      navigateTo("/confirm");
-    }
-  } catch (error) {
-    console.error("Error during auto login:", error);
   }
 };
 </script>
