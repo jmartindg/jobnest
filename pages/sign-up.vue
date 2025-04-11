@@ -42,12 +42,12 @@
 
         <div class="divider my-6">OR</div>
 
-        <div class="mb-4 flex w-full">
+        <!-- <div class="mb-4 flex w-full">
           <button class="btn btn-outline w-full">
             <GoogleSVG />
             Sign Up with Google
           </button>
-        </div>
+        </div> -->
 
         <div class="text-center">
           <p class="mb-4">Already have an account?</p>
