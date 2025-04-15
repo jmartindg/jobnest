@@ -66,7 +66,7 @@
 
     <!-- View application modal -->
     <dialog ref="viewModal" class="modal">
-      <div class="modal-box">
+      <div class="modal-box max-h-[90vh] overflow-y-auto">
         <h3 class="flex items-center justify-between pb-6 text-lg font-bold">Application Details <Icon name="heroicons:eye" size="24" /></h3>
         <div v-if="currentApplication">
           <div class="mb-4">
@@ -145,7 +145,7 @@
 
     <!-- Add application modal -->
     <dialog ref="addApplicationModal" class="modal">
-      <div class="modal-box">
+      <div class="modal-box max-h-[90vh] overflow-y-auto">
         <h3 class="flex items-center justify-between pb-6 text-lg font-bold">Add Application <Icon name="heroicons:plus-circle" size="24" /></h3>
         <div class="mb-4">
           <label for="company-name" class="label mb-1">
@@ -227,7 +227,7 @@
 
     <!-- Edit application modal -->
     <dialog ref="editApplicationModal" class="modal">
-      <div class="modal-box">
+      <div class="modal-box max-h-[90vh] overflow-y-auto">
         <h3 class="flex items-center justify-between pb-6 text-lg font-bold">Edit Application <Icon name="heroicons:pencil" size="24" /></h3>
         <div v-if="currentApplication">
           <div class="mb-4">
@@ -306,7 +306,7 @@
 
     <!-- Delete application modal -->
     <dialog ref="deleteApplicationModal" class="modal">
-      <div class="modal-box">
+      <div class="modal-box max-h-[90vh] overflow-y-auto">
         <h3 class="flex items-center justify-between pb-6 text-lg font-bold">Delete Application <Icon name="heroicons:trash" size="24" /></h3>
         <p>Are you sure you want to delete this job application? This action is permanent and cannot be undone.</p>
         <div class="modal-action">
