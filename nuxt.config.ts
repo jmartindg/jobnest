@@ -9,6 +9,9 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  runtimeConfig: {
+    geminiApiKey: process.env.GEMINI_API_KEY,
+  },
   app: {
     head: {
       title: "JobNest",

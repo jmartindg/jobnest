@@ -71,6 +71,7 @@ const isMobileMenuOpen = ref(false);
 
 const navLinks = ref([
   { name: "My Applications", href: "/applications" },
+  { name: "CV Writer", href: "/applications/cv-writer" },
   { name: "Profile", href: "/applications/profile" },
 ]);
 
