@@ -99,6 +99,7 @@
               <option value="interview">Interview</option>
               <option value="offer">Offer</option>
               <option value="rejected">Rejected</option>
+              <option value="withdrawn">Withdrawn</option>
             </select>
           </div>
 
@@ -179,6 +180,7 @@
             <option value="interview">Interview</option>
             <option value="offer">Offer</option>
             <option value="rejected">Rejected</option>
+            <option value="withdrawn">Withdrawn</option>
           </select>
           <p v-if="errors.status" class="mt-1 text-sm text-red-500">Status is required</p>
         </div>
@@ -260,6 +262,7 @@
               <option value="interview">Interview</option>
               <option value="offer">Offer</option>
               <option value="rejected">Rejected</option>
+              <option value="withdrawn">Withdrawn</option>
             </select>
           </div>
 
@@ -428,7 +431,7 @@ const getBadgeColor = (status: string) => {
     case "rejected":
       return "badge-error";
     default:
-      return "badge-info";
+      return "badge-accent";
   }
 };
 
