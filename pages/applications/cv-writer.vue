@@ -1,18 +1,17 @@
-<!-- eslint-disable vue/no-v-html -->
-<!-- eslint-disable vue/html-self-closing -->
 <template>
   <section>
     <h1 class="pb-4 text-2xl font-bold sm:pb-0">CV Writer Assistant</h1>
     <article class="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
       <div>
         <h2 class="pb-2 font-medium">Job Description</h2>
-        <textarea v-model="jobDescription" class="textarea w-full" rows="10" placeholder="Paste here the specific job description" />
+        <textarea v-model="jobDescription" class="textarea w-full" :class="{ 'border-red-500': isInvalid }" rows="10" placeholder="Paste here the specific job description" />
       </div>
       <div>
         <h2 class="pb-2 font-medium">What would you like to highlight about yourself?</h2>
         <textarea
           v-model="highlights"
           class="textarea w-full"
+          :class="{ 'border-red-500': isInvalid }"
           rows="10"
           placeholder="Briefly describe standout qualities, achievements, or experiences that reflect your strengths — e.g., leadership roles, certifications, unique skills, or impactful projects."
         />
@@ -67,9 +66,9 @@ const highlights = ref("");
 const cvLength = ref("standard");
 const loading = ref(false);
 const generatedCV = ref("");
+const isInvalid = ref(false);
 const renderedCV = computed(() => {
   let text = generatedCV.value.trim();
-  // Remove leading and trailing triple backticks if present
   if (text.startsWith("```") && text.endsWith("```")) {
     text = text.slice(3, -3).trim();
   }
@@ -78,12 +77,14 @@ const renderedCV = computed(() => {
 
 const generateCV = async () => {
   if (!jobDescription.value || !highlights.value) {
+    isInvalid.value = true;
     useToastify("Please fill in all fields", { type: "error" });
     return;
   }
 
   try {
     loading.value = true;
+    isInvalid.value = false;
     const { data } = await useFetch("/api/generate-cv", {
       method: "POST",
       body: {
@@ -100,6 +101,7 @@ const generateCV = async () => {
     useToastify("Failed to generate CV. Please try again.", { type: "error" });
     console.error("Error:", error);
   } finally {
+    isInvalid.value = false;
     loading.value = false;
   }
 };

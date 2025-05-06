@@ -31,9 +31,9 @@ const features = ref([
     icon: "ph:magnifying-glass-bold",
   },
   {
-    title: "Insights & Analytics",
-    description: "Get insights into your job search with analytics and reports.",
-    icon: "ph:chart-bar-bold",
+    title: "CV Writer Assistant",
+    description: "Generate a professional CV in minutes with our AI-powered CV writer.",
+    icon: "ph:file-bold",
   },
   {
     title: "Free",

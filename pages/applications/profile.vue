@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/html-self-closing -->
 <template>
   <section>
     <h1 class="text-2xl font-bold">My Profile</h1>

@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/html-self-closing -->
 <template>
   <section>
     <div class="flex flex-col justify-between sm:flex-row sm:items-center">

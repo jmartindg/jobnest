@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/html-self-closing -->
 <template>
   <div class="bg-base-200 flex min-h-screen flex-col items-center justify-center px-4 py-12">
     <div class="card bg-base-100 w-full max-w-md shadow-lg">
@@ -34,13 +33,6 @@
         </form>
 
         <div class="divider my-6">OR</div>
-
-        <!-- <div class="mb-4 flex w-full">
-          <button class="btn btn-outline w-full">
-            <GoogleSVG />
-            Sign In with Google
-          </button>
-        </div> -->
 
         <div class="text-center">
           <p class="mb-4">Don't have an account yet?</p>
