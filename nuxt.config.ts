@@ -5,12 +5,38 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
-  modules: ["@nuxt/eslint", "@nuxt/fonts", "@nuxt/icon", "@nuxt/image", "@nuxtjs/supabase", "nuxt-toastify"],
+  modules: [
+    "@nuxt/eslint",
+    "@nuxt/fonts",
+    "@nuxt/icon",
+    "@nuxt/image",
+    "@nuxtjs/supabase",
+    "nuxt-toastify",
+    "@nuxtjs/sitemap",
+    [
+      "@nuxtjs/robots",
+      {
+        UserAgent: "*",
+        Allow: "/",
+        Disallow: ["/admin", "/sign-in", "/sign-up", "/confirm"],
+        Sitemap: "https://jobnestph.vercel.app/sitemap.xml",
+      },
+    ],
+  ],
   vite: {
     plugins: [tailwindcss()],
   },
   runtimeConfig: {
     geminiApiKey: process.env.GEMINI_API_KEY,
+  },
+  site: {
+    url: "https://jobnestph.vercel.app",
+    name: "JobNest",
+    description: "JobNest helps you organize your job search journey. Keep track of application details all in one place. Never miss an opportunity again.",
+  },
+  sitemap: {
+    urls: ["https://jobnestph.vercel.app"],
+    exclude: ["/admin/**", "/sign-in", "/sign-up", "/confirm"],
   },
   app: {
     head: {
@@ -29,6 +55,30 @@ export default defineNuxtConfig({
         {
           name: "description",
           content: "JobNest helps you organize your job search journey. Keep track of application details all in one place. Never miss an opportunity again.",
+        },
+        {
+          name: "keywords",
+          content: "job search, job tracking, application management, career organization, job applications, job hunt, job search tool, application tracker",
+        },
+        {
+          name: "author",
+          content: "JobNest",
+        },
+        {
+          property: "og:title",
+          content: "JobNest - Your Job Search Companion",
+        },
+        {
+          property: "og:description",
+          content: "Organize your job search journey. Track applications, never miss opportunities, and manage your career effectively.",
+        },
+        {
+          property: "og:type",
+          content: "website",
+        },
+        {
+          property: "og:url",
+          content: "https://jobnestph.vercel.app",
         },
       ],
     },
