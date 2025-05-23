@@ -5,24 +5,15 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
   css: ["~/assets/css/main.css"],
-  modules: [
-    "@nuxt/eslint",
-    "@nuxt/fonts",
-    "@nuxt/icon",
-    "@nuxt/image",
-    "@nuxtjs/supabase",
-    "nuxt-toastify",
-    "@nuxtjs/sitemap",
-    [
-      "@nuxtjs/robots",
-      {
-        UserAgent: "*",
-        Allow: "/",
-        Disallow: ["/admin", "/sign-in", "/sign-up", "/confirm"],
-        Sitemap: "https://jobnestph.vercel.app/sitemap.xml",
-      },
-    ],
-  ],
+  modules: ["@nuxt/eslint", "@nuxt/fonts", "@nuxt/icon", "@nuxt/image", "@nuxtjs/supabase", "nuxt-toastify", "@nuxtjs/sitemap", [
+    "@nuxtjs/robots",
+    {
+      UserAgent: "*",
+      Allow: "/",
+      Disallow: ["/admin", "/sign-in", "/sign-up", "/confirm"],
+      Sitemap: "https://jobnestph.vercel.app/sitemap.xml",
+    },
+  ], "@vueuse/nuxt"],
   vite: {
     plugins: [tailwindcss()],
   },

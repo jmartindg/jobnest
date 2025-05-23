@@ -92,6 +92,11 @@ definePageMeta({
   middleware: "auth",
 });
 
+useSeoMeta({
+  title: "JobNest | Profile",
+  description: "Manage your account settings",
+});
+
 const user = useSupabaseUser();
 const updateLoading = ref(false);
 const updatePasswordLoading = ref(false);

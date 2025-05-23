@@ -61,6 +61,11 @@ definePageMeta({
   middleware: "auth",
 });
 
+useSeoMeta({
+  title: "JobNest | CV Writer",
+  description: "Generate a CV with the help of our assistant",
+});
+
 const jobDescription = ref("");
 const highlights = ref("");
 const cvLength = ref("standard");
@@ -107,4 +112,4 @@ const generateCV = async () => {
 };
 </script>
 
-<style></style>
+<style scoped></style>

@@ -1,61 +1,123 @@
 <template>
   <section>
     <div class="flex flex-col justify-between sm:flex-row sm:items-center">
-      <h1 class="pb-4 text-2xl font-bold sm:pb-0">My Applications</h1>
+      <div class="flex flex-row items-center justify-between pb-4 sm:flex-col sm:items-start sm:pb-0">
+        <h1 class="text-2xl font-bold">My Applications</h1>
+        <p class="text-base-content/70 text-sm">Total: {{ totalItems }}</p>
+      </div>
       <button class="btn btn-primary" @click="handleAddModal">
         <Icon name="ph:plus" class="text-primary-content" size="20" />
         <span class="ml-2">Add Application</span>
       </button>
     </div>
 
-    <section v-if="applications?.length" class="rounded-box border-base-content/5 bg-base-100 mt-8 overflow-x-auto border">
-      <table class="table-zebra table">
-        <thead>
-          <tr>
-            <th>Company Name</th>
-            <th>Position</th>
-            <th>Location</th>
-            <th>Status</th>
-            <th>Interview Type</th>
-            <th>Meeting Link</th>
-            <th>Date Applied</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="application in applications" :key="application.id">
-            <td>
-              <p>{{ application.company_name }}</p>
-            </td>
-            <td>{{ application.position }}</td>
-            <td>{{ application.location || "-" }}</td>
-            <td>
-              <div class="badge capitalize" :class="getBadgeColor(application.status)">{{ application.status }}</div>
-            </td>
-            <td>
-              <p class="capitalize">{{ application.interview_type }}</p>
-            </td>
-            <td>
-              <NuxtLink v-if="application.meeting_link" :to="application.meeting_link" class="text-blue-600 hover:underline" target="_blank">
-                {{ application.meeting_link }}
-              </NuxtLink>
-              <span v-else>-</span>
-            </td>
-            <td>{{ formatDate(application.date_applied) }}</td>
-            <td class="flex items-center">
-              <button class="btn btn-ghost" @click="() => handleViewModal(application)">
-                <Icon name="heroicons:eye" size="20" />
-              </button>
-              <button class="btn btn-ghost" @click="() => handleEditModal(application)">
-                <Icon name="heroicons:pencil" size="20" />
-              </button>
-              <button class="btn btn-ghost" @click="() => handleDeleteModal(application)">
-                <Icon name="heroicons:trash" size="20" />
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="mt-8 flex flex-col justify-between gap-4 sm:flex-row">
+      <div class="form-control w-full max-w-sm">
+        <label class="label pb-1 text-sm lg:text-base">
+          <span class="label-text">Search</span>
+        </label>
+        <div class="relative">
+          <input v-model="searchQuery" type="text" placeholder="Company name or position" class="input input-bordered w-full" />
+          <Icon name="heroicons:magnifying-glass" class="absolute top-1/2 right-3 -translate-y-1/2 text-gray-500" size="20" />
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <div class="form-control w-full max-w-xs">
+          <label class="label pb-1 text-sm lg:text-base">
+            <span class="label-text">Filter by Status</span>
+          </label>
+          <select v-model="statusFilter" class="select select-bordered w-full" @change="handleFilterChange">
+            <option value="">All Statuses</option>
+            <option value="applied">Applied</option>
+            <option value="interview">Interview</option>
+            <option value="offer">Offer</option>
+            <option value="rejected">Rejected</option>
+            <option value="withdrawn">Withdrawn</option>
+          </select>
+        </div>
+
+        <div class="form-control w-full max-w-xs">
+          <label class="label pb-1 text-sm lg:text-base">
+            <span class="label-text">Filter by Interview Type</span>
+          </label>
+          <select v-model="interviewTypeFilter" class="select select-bordered w-full" @change="handleFilterChange">
+            <option value="">All Types</option>
+            <option value="not interviewed yet">Not interviewed yet</option>
+            <option value="remote">Remote</option>
+            <option value="in-person">In-Person</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <section v-if="applications?.length">
+      <section class="rounded-box border-base-content/5 bg-base-100 mt-8 overflow-x-auto border">
+        <table class="table-zebra table">
+          <thead>
+            <tr>
+              <th>Company Name</th>
+              <th>Position</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Interview Type</th>
+              <th>Meeting Link</th>
+              <th>Date Applied</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="application in applications" :key="application.id">
+              <td>
+                <p>{{ application.company_name }}</p>
+              </td>
+              <td>{{ application.position }}</td>
+              <td>{{ application.location || "-" }}</td>
+              <td>
+                <div class="badge capitalize" :class="getBadgeColor(application.status)">{{ application.status }}</div>
+              </td>
+              <td>
+                <p class="capitalize">{{ application.interview_type }}</p>
+              </td>
+              <td>
+                <NuxtLink v-if="application.meeting_link" :to="application.meeting_link" class="text-blue-600 hover:underline" target="_blank">
+                  {{ application.meeting_link }}
+                </NuxtLink>
+                <span v-else>-</span>
+              </td>
+              <td>{{ formatDate(application.date_applied) }}</td>
+              <td class="flex items-center">
+                <button class="btn btn-ghost" @click="() => handleViewModal(application)">
+                  <Icon name="heroicons:eye" size="20" />
+                </button>
+                <button class="btn btn-ghost" @click="() => handleEditModal(application)">
+                  <Icon name="heroicons:pencil" size="20" />
+                </button>
+                <button class="btn btn-ghost" @click="() => handleDeleteModal(application)">
+                  <Icon name="heroicons:trash" size="20" />
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <div class="mt-8 flex items-center justify-center">
+        <div class="join">
+          <button v-for="page in totalPages" :key="page" class="join-item btn" :class="{ 'btn-active': currentPage === page }" @click="handlePageChange(page)">
+            {{ page }}
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section v-else-if="isLoading" class="flex min-h-[75vh] flex-col items-center justify-center">
+      <div class="loading loading-spinner loading-lg"></div>
+    </section>
+
+    <section v-else-if="searchQuery && !applications?.length" class="flex min-h-[75vh] flex-col items-center justify-center">
+      <Icon name="heroicons:magnifying-glass" size="84" />
+      <p class="w-full pt-6 text-center sm:w-1/2 xl:w-1/4">No applications found matching your search criteria. Try adjusting your search.</p>
     </section>
 
     <section v-else class="flex min-h-[75vh] flex-col items-center justify-center">
@@ -323,9 +385,16 @@
 </template>
 
 <script setup lang="ts">
+import { useDebounceFn } from "@vueuse/core";
+
 definePageMeta({
   layout: "application",
   middleware: "auth",
+});
+
+useSeoMeta({
+  title: "JobNest | Applications",
+  description: "View all your job applications",
 });
 
 interface Database {
@@ -378,6 +447,13 @@ const editInterviewType = ref("");
 const editLoading = ref(false);
 const addLoading = ref(false);
 const deleteLoading = ref(false);
+const currentPage = ref(1);
+const itemsPerPage = 10;
+const totalItems = ref(0);
+const statusFilter = ref("");
+const interviewTypeFilter = ref("");
+const searchQuery = ref("");
+const isLoading = ref(false);
 
 const errors = ref({
   companyName: false,
@@ -435,12 +511,60 @@ const getBadgeColor = (status: string) => {
 };
 
 const { data: applications, refresh } = await useAsyncData<Application[]>("application", async () => {
-  const { data, error } = await supabase.from("job applications").select("*").order("created_at", { ascending: false });
+  isLoading.value = true;
+  let query = supabase.from("job applications").select("*", { count: "exact", head: true });
+
+  if (searchQuery.value) {
+    query = query.or(`company_name.ilike.%${searchQuery.value}%,position.ilike.%${searchQuery.value}%`);
+  }
+
+  if (statusFilter.value) {
+    query = query.eq("status", statusFilter.value);
+  }
+  if (interviewTypeFilter.value) {
+    query = query.eq("interview_type", interviewTypeFilter.value);
+  }
+
+  const { count } = await query;
+  totalItems.value = count || 0;
+
+  let dataQuery = supabase
+    .from("job applications")
+    .select("*")
+    .range((currentPage.value - 1) * itemsPerPage, currentPage.value * itemsPerPage - 1)
+    .order("created_at", { ascending: false });
+
+  if (searchQuery.value) {
+    dataQuery = dataQuery.or(`company_name.ilike.%${searchQuery.value}%,position.ilike.%${searchQuery.value}%`);
+  }
+
+  if (statusFilter.value) {
+    dataQuery = dataQuery.eq("status", statusFilter.value);
+  }
+  if (interviewTypeFilter.value) {
+    dataQuery = dataQuery.eq("interview_type", interviewTypeFilter.value);
+  }
+
+  const { data, error } = await dataQuery;
+
   if (error) {
     throw new Error(error.message);
   }
+  isLoading.value = false;
   return data;
 });
+
+const totalPages = computed(() => Math.ceil(totalItems.value / itemsPerPage));
+
+const handlePageChange = async (page: number) => {
+  currentPage.value = page;
+  await refresh();
+};
+
+const handleFilterChange = async () => {
+  currentPage.value = 1;
+  await refresh();
+};
 
 const addApplication = async () => {
   errors.value = {
@@ -606,6 +730,15 @@ const formatDate = (dateString: string | null) => {
     year: "numeric",
   });
 };
+
+const debouncedSearch = useDebounceFn(() => {
+  currentPage.value = 1;
+  refresh();
+}, 1000);
+
+watch(searchQuery, () => {
+  debouncedSearch();
+});
 </script>
 
 <style scoped></style>
