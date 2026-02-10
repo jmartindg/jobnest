@@ -90,7 +90,7 @@ const generateCV = async () => {
   try {
     loading.value = true;
     isInvalid.value = false;
-    const { data } = await useFetch("/api/generate-cv", {
+    const { data, error } = await useFetch("/api/generate-cv", {
       method: "POST",
       body: {
         jobDescription: jobDescription.value,
@@ -99,12 +99,18 @@ const generateCV = async () => {
       },
     });
 
+    if (error.value) {
+      const msg =
+        error.value.data?.message || (error.value.statusCode === 429 ? "Too many requests. Please wait a minute and try again." : "Failed to generate CV. Please try again.");
+      useToastify(msg, { type: "error" });
+      return;
+    }
     if (data.value) {
       generatedCV.value = data.value.cv;
     }
-  } catch (error) {
+  } catch (err) {
     useToastify("Failed to generate CV. Please try again.", { type: "error" });
-    console.error("Error:", error);
+    console.error("Error:", err);
   } finally {
     isInvalid.value = false;
     loading.value = false;

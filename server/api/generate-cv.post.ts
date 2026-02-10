@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
     }
 
     const genAI = new GoogleGenerativeAI(config.geminiApiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
     const prompt = `Create a professional CV in the form of a cover letter, similar to this format:
 
@@ -52,7 +52,19 @@ Important:
     const response = await result.response;
 
     return { cv: response.text() };
-  } catch (error) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error("Gemini API error:", message, error);
+
+    const isQuotaOrRateLimit = message.includes("429") || message.includes("quota") || message.includes("Too Many Requests") || message.includes("RESOURCE_EXHAUSTED");
+
+    if (isQuotaOrRateLimit) {
+      throw createError({
+        statusCode: 429,
+        message: "CV generation is temporarily limited. Please wait a minute and try again.",
+      });
+    }
+
     console.error("Error generating CV:", error);
     throw createError({
       statusCode: 500,

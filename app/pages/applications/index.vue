@@ -453,7 +453,6 @@ const addLoading = ref(false);
 const deleteLoading = ref(false);
 const currentPage = ref(1);
 const itemsPerPage = 10;
-const totalItems = ref(0);
 const statusFilter = ref("");
 const interviewTypeFilter = ref("");
 const searchQuery = ref("");
@@ -516,7 +515,7 @@ const getBadgeColor = (status: string) => {
   }
 };
 
-const { data: applications, refresh } = await useAsyncData<Application[]>("application", async () => {
+const { data: applicationData, refresh } = await useAsyncData<{ list: Application[]; total: number }>("application", async () => {
   isLoading.value = true;
   let query = supabase.from("job applications").select("*", { count: "exact", head: true });
 
@@ -532,7 +531,7 @@ const { data: applications, refresh } = await useAsyncData<Application[]>("appli
   }
 
   const { count } = await query;
-  totalItems.value = count || 0;
+  const total = count ?? 0;
 
   let dataQuery = supabase
     .from("job applications")
@@ -557,9 +556,11 @@ const { data: applications, refresh } = await useAsyncData<Application[]>("appli
     throw new Error(error.message);
   }
   isLoading.value = false;
-  return data;
+  return { list: data ?? [], total };
 });
 
+const applications = computed(() => applicationData.value?.list ?? []);
+const totalItems = computed(() => applicationData.value?.total ?? 0);
 const totalPages = computed(() => Math.ceil(totalItems.value / itemsPerPage));
 
 const handlePageChange = async (page: number) => {
