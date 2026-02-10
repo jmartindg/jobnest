@@ -14,8 +14,17 @@ export default defineNuxtConfig({
       Sitemap: "https://jobnestph.vercel.app/sitemap.xml",
     },
   ], "@vueuse/nuxt"],
+  fonts: {
+    families: [
+      {
+        name: "Inter",
+        provider: "google",
+        weights: [400, 500, 600, 700, 900],
+      },
+    ],
+  },
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss() as any],
   },
   runtimeConfig: {
     geminiApiKey: process.env.GEMINI_API_KEY,
